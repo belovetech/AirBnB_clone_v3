@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+entry point of our application
+"""
 
 from os import getenv
 from flask import Flask, jsonify
@@ -11,11 +14,17 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def teardown(exception):
+    """
+    a method that closes the storage
+    """
     storage.close()
 
 
 @app.errorhandler(404)
 def error_404(error):
+    """
+    handles the error 
+    """
     return jsonify({
         'error': 'Not Found'
     }), 404
