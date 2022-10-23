@@ -26,7 +26,7 @@ def error_404(error):
     handles the error
     """
     return jsonify({
-        'error': 'Not Found'
+        'error': 'Not found'
     }), 404
 
 
