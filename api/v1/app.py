@@ -19,7 +19,6 @@ def error_404(error):
     return jsonify({
         'error': 'Not Found'
     }), 404
-    
 
 
 if __name__ == '__main__':
