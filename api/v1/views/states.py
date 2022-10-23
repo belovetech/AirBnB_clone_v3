@@ -12,7 +12,7 @@ from models import storage
 from models.state import State
 
 
-@app_views.route('/states', methods=['GET'])
+@app_views.route('/states/', methods=['GET'])
 def get_all_states():
     """Retrieves all state objects"""
     all_states = storage.all(State)
@@ -37,15 +37,17 @@ def delete_state(state_id):
     """Delete state by id"""
     try:
         state = storage.get(State, state_id)
-        storage.delete(state)
-        state.save()
+        # storage.delete(state)
+        # state.save()
+        state.delete()
+        del state
     except Exception:
         abort(404)
 
     return jsonify({})
 
 
-@app_views.route('/states', methods=['POST'])
+@app_views.route('/states/', methods=['POST'])
 def create_state():
     """Create a state object"""
     data = request.get_json()
