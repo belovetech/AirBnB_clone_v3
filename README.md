@@ -179,7 +179,7 @@ No known bugs at this time.
 ## Authors
 
 Abeeb Raheem - [Github](https://github.com/belovetech)
-Jennifer Huang - [Github](https://github.com/Ayobamy)
+Ahmed Olawale - [Github](https://github.com/ayobamy)
 
 ## License
 
