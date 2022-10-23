@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-
+view for the states
 """
 
 import json
