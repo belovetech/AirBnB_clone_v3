@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+return status of the page
+"""
 
 from flask import jsonify
 from api.v1.views import app_views
