@@ -70,48 +70,20 @@ def create_state():
 #     return make_response(new_state.to_dict(), 201)
 
 
-# @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
-# def update_state(state_id):
-#     """update state by id"""
-#     state = storage.get(State, state_id)
-#     if state is None:
-#         abort(404, 'Not found')
-
-#     data = request.get_json()
-#     if data is None or not data.is_json:
-#         abort(404, 'Not a JSON')
-
-#     ignore_keys = ['id', 'created_at', 'updated_at']
-#     for key, value in data.items():
-#         if key not in ignore_keys:
-#             setattr(state, key, value)
-#     state.save()
-#     return make_response(state.to_dict(), 200)
-
-
-# @app_views.route('/states', methods=['GET'], strict_slashes=False)
-# def all_states():
-#     """Return all states objects"""
-#     states = storage.all('State')
-#     statess = []
-#     for state in states.values():
-#         statess.append(state.to_dict())
-#     return jsonify(statess)
-
-
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
-def put_state(state_id):
-    """Update the state object with the provided id"""
-    put_req = request.get_json()
-    if not put_req:
-        abort(400, "Not a JSON")
+def update_state(state_id):
+    """update state by id"""
     state = storage.get(State, state_id)
-    if not state:
-        abort(404)
-    ignore_keys = ['id', 'created_id', 'updated_at']
+    if state is None:
+        abort(404, 'Not found')
 
-    for key, value in put_req.items():
+    data = request.get_json()
+    if data is None or not data.is_json:
+        abort(404, 'Not a JSON')
+
+    ignore_keys = ['id', 'created_at', 'updated_at']
+    for key, value in data.items():
         if key not in ignore_keys:
             setattr(state, key, value)
-    storage.save()
+    state.save()
     return make_response(state.to_dict(), 200)
