@@ -90,7 +90,7 @@ def create_state():
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
-def put_state(state_id):
+def update_state(state_id):
     """Update the state object with the provided id"""
     data = request.get_json()
     if not data:
