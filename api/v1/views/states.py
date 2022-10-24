@@ -17,14 +17,6 @@ def get_all_states():
     all_states = [obj.to_dict() for obj in all_states.values()]
     return jsonify(all_states)
 
-# @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
-# def one_state(state_id):
-#     """Get a single state"""
-#     state = storage.get(State, state_id)
-#     if not state:
-#         abort(404)
-#     return jsonify(state.to_dict())
-
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def get_state(state_id):
@@ -35,17 +27,28 @@ def get_state(state_id):
     return jsonify(state.to_dict())
 
 
-# @app_views.route('/states/<state_id>', methods=['DELETE'],
-#                  strict_slashes=False)
-# def delete_state(state_id):
-#     """Delete state by id"""
+# @app_views.route('/states/<state_id>',
+#                  methods=['DELETE'], strict_slashes=False)
+# def del_state(state_id):
+#     """Delete a state obj with its id"""
 #     state = storage.get(State, state_id)
-#     if state is None:
-#         abort(404, 'Not found')
+#     if not state:
+#         abort(404)
 #     state.delete()
 #     storage.save()
-
 #     return make_response({}, 200)
+
+
+@app_views.route('/states/<state_id>', methods=['DELETE'],
+                 strict_slashes=False)
+def delete_state(state_id):
+    """Delete state by id"""
+    state = storage.get(State, state_id)
+    if state is None:
+        abort(404, 'Not found')
+    state.delete()
+    storage.save()
+    return make_response({}, 200)
 
 
 # @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -90,18 +93,6 @@ def get_state(state_id):
 #     for state in states.values():
 #         statess.append(state.to_dict())
 #     return jsonify(statess)
-
-
-@app_views.route('/states/<state_id>',
-                 methods=['DELETE'], strict_slashes=False)
-def del_state(state_id):
-    """Delete a state obj with its id"""
-    state = storage.get(State, state_id)
-    if not state:
-        abort(404)
-    state.delete()
-    storage.save()
-    return make_response({}, 200)
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
