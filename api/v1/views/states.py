@@ -23,11 +23,13 @@ def get_all_states():
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def get_state(state_id):
     """Retrieves state objects by id"""
-    try:
-        state = storage.get(State, state_id)
-        state = state.to_dict()
-    except Exception:
-        abort(404)
+    
+    state = storage.get(State, state_id)
+    
+    if state is None:
+        abort(404, 'Not found')
+        
+    state = state.to_dict()
 
     return jsonify(state)
 
@@ -36,14 +38,13 @@ def get_state(state_id):
                  strict_slashes=False)
 def delete_state(state_id):
     """Delete state by id"""
-    try:
-        state = storage.get(State, state_id)
-        # storage.delete(state)
-        # state.save()
-        state.delete()
-        del state
-    except Exception:
-        abort(404)
+    state = storage.get(State, state_id)
+    
+    if state is None:
+        abort(404, 'Not found')
+        
+    storage.delete(state)
+    state.save()
 
     return jsonify({})
 
@@ -67,6 +68,9 @@ def create_state():
 def update_state(state_id):
     """update state by id"""
     state = storage.get(State, state_id)
+    if state is None:
+        abort(404, 'Not found')
+
     data = request.get_json()
     if not state:
         abort(404)
