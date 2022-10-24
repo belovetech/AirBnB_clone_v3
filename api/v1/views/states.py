@@ -63,10 +63,10 @@ def create_state():
     if 'name' not in data:
         abort(404, 'Missing name')
 
-    state = State(**data)
-    state.save()
+    new_state = State(**data)
+    new_state.save()
 
-    return make_response(state.to_dict(), 201)
+    return make_response(new_state.to_dict(), 201)
 
 
 # @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
