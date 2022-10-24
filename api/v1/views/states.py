@@ -45,13 +45,11 @@ def delete_state(state_id):
     """Delete state by id"""
     try:
         state = storage.get(State, state_id)
-    # if state is None:
-    #     abort(404, 'Not found')
         state.delete()
         storage.save()
     except Exception:
         abort(404, 'Not found')
-    return make_response({}, 200)
+    return jsonify({}), 200
 
 
 # @app_views.route('/states', methods=['POST'], strict_slashes=False)
