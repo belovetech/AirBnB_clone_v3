@@ -78,12 +78,30 @@ def update_state(state_id):
         abort(404, 'Not found')
 
     data = request.get_json()
-    if data is None or not data.is_json:
+    if data is None:
         abort(404, 'Not a JSON')
 
     ignore_keys = ['id', 'created_at', 'updated_at']
     for key, value in data.items():
         if key not in ignore_keys:
             setattr(state, key, value)
-    state.save()
+    storage.save()
     return make_response(state.to_dict(), 200)
+
+
+# @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
+# def put_state(state_id):
+#     """Update the state object with the provided id"""
+#     put_req = request.get_json()
+#     if not put_req:
+#         abort(400, "Not a JSON")
+#     state = storage.get(State, state_id)
+#     if not state:
+#         abort(404)
+#     ignore_keys = ['id', 'created_id', 'updated_at']
+
+#     for key, value in put_req.items():
+#         if key not in ignore_keys:
+#             setattr(state, key, value)
+#     storage.save()
+#     return make_response(state.to_dict(), 200)
