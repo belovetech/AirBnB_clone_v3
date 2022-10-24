@@ -3,11 +3,10 @@
 view for the states
 """
 
-import json
 from flask import abort, request, make_response, jsonify
 from api.v1.views import app_views
-from models.base_model import BaseModel
 from models import storage
+from models.base_model import BaseModel
 from models.state import State
 
 
@@ -25,8 +24,7 @@ def get_state(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404, 'Not found')
-    state = state.to_dict()
-    return jsonify(state)
+    return jsonify(state.to_dict())
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'],
@@ -39,7 +37,7 @@ def delete_state(state_id):
     state.delete()
     storage.save()
 
-    return jsonify({}, 200)
+    return make_response({}, 200)
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -54,7 +52,7 @@ def create_state():
     state = State(**data)
     state.save()
 
-    return jsonify(state.to_dict()), 201
+    return make_response(state.to_dict(), 201)
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
@@ -75,4 +73,4 @@ def update_state(state_id):
         if key not in ignore_keys:
             setattr(state, key, value)
     state.save()
-    return jsonify(state.to_dict(), 200)
+    return make_response(state.to_dict(), 200)
