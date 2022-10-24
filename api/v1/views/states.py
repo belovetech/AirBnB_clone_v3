@@ -64,7 +64,8 @@ def create_state():
         abort(404, "Missing name")
 
     new_state = State(**data)
-    new_state.save()
+    storage.new(new_state)
+    storage.save()
 
     return make_response(new_state.to_dict(), 201)
 
