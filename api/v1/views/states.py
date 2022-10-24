@@ -4,10 +4,9 @@ view for the states
 """
 
 import json
-from flask import abort, request
+from flask import abort, request, make_response, jsonify
 from api.v1.views import app_views
 from models.base_model import BaseModel
-from flask import jsonify
 from models import storage
 from models.state import State
 
@@ -24,12 +23,9 @@ def get_all_states():
 def get_state(state_id):
     """Retrieves state objects by id"""
     state = storage.get(State, state_id)
-
     if state is None:
         abort(404, 'Not found')
-
     state = state.to_dict()
-
     return jsonify(state)
 
 
@@ -38,19 +34,17 @@ def get_state(state_id):
 def delete_state(state_id):
     """Delete state by id"""
     state = storage.get(State, state_id)
-
     if state is None:
         abort(404, 'Not found')
-
     state.delete()
     storage.save()
 
-    return jsonify({})
+    return jsonify({}, 200)
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_state():
-    """Create a state object"""
+    """Create a new state object"""
     data = request.get_json()
     if data is None or not request.is_json:
         abort(404, 'Not a JSON')
@@ -76,10 +70,9 @@ def update_state(state_id):
     if data is None or not request.is_json:
         abort(404, 'Not a JSON')
 
+    ignore_keys = ['id', 'created_at', 'updated_at']
     for key, value in data.items():
-        if key == 'id' or key == 'created_at' or key == 'updated_at':
-            continue
-        else:
+        if key not in ignore_keys:
             setattr(state, key, value)
     state.save()
-    return jsonify(state.to_dict())
+    return jsonify(state.to_dict(), 200)
