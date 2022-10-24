@@ -2,12 +2,13 @@
 """
 view for the cities
 """
-from flask import abort, request, make_response, jsonify
-from models.base_model import BaseModel
+
 from models import storage
-from models.state import State
-from models.city import City
 from api.v1.views import app_views
+from models.base_model import BaseModel
+from flask import abort, request, make_response, jsonify
+from models.city import City
+from models.state import State
 
 
 @app_views.route('/states/<state_id>/cities', methods=["GET"],
