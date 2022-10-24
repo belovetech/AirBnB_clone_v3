@@ -27,23 +27,20 @@ def get_all_cities(state_id):
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
 def get_city(city_id):
     """Retrieve city"""
-    try:
-        city = storage.get(City, city_id)
-        city = city.to_dict()
-    except Exception:
+    city = storage.get(City, city_id)
+    if not city:
         abort(404, 'Not found')
-    return jsonify(city)
+    return jsonify(city.to_dict())
 
 
 @app_views.route('/cities/<city_id>', methods=['DELETE'], strict_slashes=False)
 def delete_city(city_id):
     """Deletes a City object"""
-    try:
-        city = storage.get(City, city_id)
-        city.delete()
-        storage.save()
-    except Exception:
+    city = storage.get(City, city_id)
+    if not city:
         abort(404, 'Not found')
+    city.delete()
+    storage.save()
     return jsonify({})
 
 
@@ -51,14 +48,14 @@ def delete_city(city_id):
                  methods=['POST'], strict_slashes=False)
 def create_city(state_id):
     """Create a new city object"""
-    state = storage.get(State, state_id)
-    if not state:
-        abort(404, 'Not found')
     data = request.get_json()
     if not data:
         abort(404, 'Not a JSON')
     if 'name' not in data:
         abort(404, 'Missing name')
+    state = storage.get(State, state_id)
+    if not state:
+        abort(404, 'Not found')
 
     new_city = City(**data)
     setattr(new_city, 'state_id', state_id)
