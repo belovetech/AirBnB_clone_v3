@@ -14,4 +14,3 @@ def get_status():
     return jsonify({
         'status': 'OK'
     })
-
