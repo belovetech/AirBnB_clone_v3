@@ -9,13 +9,12 @@ from models import storage
 from models.base_model import BaseModel
 from models.state import State
 
-
-# @app_views.route('/states', methods=['GET'], strict_slashes=False)
-# def get_all_states():
-#     """Retrieves all state objects"""
-#     all_states = storage.all('State')
-#     all_states = [obj.to_dict() for obj in all_states.values()]
-#     return jsonify(all_states)
+@app_views.route('/states', methods=['GET'], strict_slashes=False)
+def get_all_states():
+    """Retrieves all state objects"""
+    all_states = storage.all('State')
+    all_states = [obj.to_dict() for obj in all_states.values()]
+    return jsonify(all_states)
 
 
 # @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
@@ -74,14 +73,14 @@ from models.state import State
 #     return make_response(state.to_dict(), 200)
 
 
-@app_views.route('/states', methods=['GET'], strict_slashes=False)
-def all_states():
-    """Return all states objects"""
-    states = storage.all('State')
-    statess = []
-    for state in states.values():
-        statess.append(state.to_dict())
-    return jsonify(statess)
+# @app_views.route('/states', methods=['GET'], strict_slashes=False)
+# def all_states():
+#     """Return all states objects"""
+#     states = storage.all('State')
+#     statess = []
+#     for state in states.values():
+#         statess.append(state.to_dict())
+#     return jsonify(statess)
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
